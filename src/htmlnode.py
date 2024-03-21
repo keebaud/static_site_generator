@@ -30,3 +30,41 @@ class HTMLNode:
     
     def __repr__(self):
         return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})"
+    
+class LeafNode(HTMLNode):
+    # A leaf has no children, so leaves are not defining children
+    def __init__(self, tag, value, props = None):
+        # x=x inherits the definition in HTMLNode. Self is not required
+        super().__init__(tag=tag, props=props)
+        # value is added separately. This isolates value within the LeafNode for processing
+        self.value = value
+
+    def to_html(self):
+        if self.value is None:
+            raise ValueError("All leaf nodes require a value")
+        if self.tag is None:
+            return self.value
+        else:
+            return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
+        
+    def __repr__(self):
+        return f"HTMLNode({self.tag}, {self.value}, {self.props})"
+    
+class ParentNode(HTMLNode):
+    def __init__(self, tag, children, props = None):
+        super().__init__(tag=tag, props=props)
+        self.children = children
+
+    def to_html(self):
+        if self.tag is None:
+            raise ValueError("Parent node requires a tag")
+        if self.children is None:
+            raise ValueError("Parent node requires children")
+        return_string = f"<{self.tag}{self.props_to_html()}>"
+        for child in self.children:
+            return_string += child.to_html()
+        return_string += f"</{self.tag}>"
+        return return_string
+
+    def __repr__(self):
+        return f"ParentNode({self.tag}, {self.children}, {self.props})"
