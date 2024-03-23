@@ -26,7 +26,7 @@ class HTMLNode:
         return_props = ""
         for key, value in self.props.items():
             return_props += f" {key}=\"{value}\""
-        return return_props
+        return return_props            
     
     def __repr__(self):
         return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})"
@@ -49,6 +49,11 @@ class LeafNode(HTMLNode):
         
     def __repr__(self):
         return f"HTMLNode({self.tag}, {self.value}, {self.props})"
+    
+    def __eq__(self, other_node):
+        return (self.tag == other_node.tag and
+                self.value == other_node.value and
+                self.props == other_node.props)
     
 class ParentNode(HTMLNode):
     def __init__(self, tag, children, props = None):
