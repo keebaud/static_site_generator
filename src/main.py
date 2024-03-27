@@ -6,6 +6,7 @@ from inline_markdown import (
     split_nodes_link,
     text_to_textnodes
 )
+from markdown_blocks import markdown_to_blocks
 
 def main():
     node = TextNode("This is a text node", "bold", "https://www.boot.dev")
@@ -30,5 +31,8 @@ def main():
 
     test_text = "This is **text** with an *italic* word and a `code block` and an ![image](https://i.imgur.com/zjjcJKZ.png) and a [link](https://boot.dev)"
     print(text_to_textnodes(test_text))
+
+    test_string = "This is **bolded** paragraph\n\nThis is another paragraph with *italic text and `code` here\nThis is the same paragraph on a new line\n\n* This is a list\n* with items"
+    print(markdown_to_blocks(test_string))
 
 main()
