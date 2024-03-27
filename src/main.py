@@ -2,7 +2,9 @@ from textnode import TextNode
 from htmlnode import HTMLNode
 from inline_markdown import (
     extract_markdown_images,
-    extract_markdown_links
+    extract_markdown_links,
+    split_nodes_link,
+    text_to_textnodes
 )
 
 def main():
@@ -18,5 +20,15 @@ def main():
 
     text = "This is text with a [link](https://www.example.com) and [another](https://www.example.com/another)"
     print(extract_markdown_links(text))
+
+    node = TextNode(
+            "This is text with a [link](https://boot.dev) and [another link](https://blog.boot.dev) with text that follows",
+            "text",
+    )
+    new_nodes = split_nodes_link([node])
+    print(new_nodes)
+
+    test_text = "This is **text** with an *italic* word and a `code block` and an ![image](https://i.imgur.com/zjjcJKZ.png) and a [link](https://boot.dev)"
+    print(text_to_textnodes(test_text))
 
 main()
